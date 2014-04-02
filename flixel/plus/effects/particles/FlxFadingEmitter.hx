@@ -29,6 +29,11 @@ class FlxFadingEmitter extends FlxEmitterExt
 	public var fadeNumber:Int;
 	
 	/**
+	 * The particles that are fading out.
+	 */
+	private var fading:Array<FlxSprite>;
+	
+	/**
 	 * @param	threshold If the number of dead particles is less than this threshold, it will
 	 * try to fade out the old particles.
 	 * @param	fadeDuration The duration of the fading out.
@@ -42,23 +47,28 @@ class FlxFadingEmitter extends FlxEmitterExt
 		this.threshold = threshold;
 		this.fadeDuration = fadeDuration;
 		this.fadeNumber = fadeNumber;
+		
+		fading = new Array<FlxSprite>();
 	}
 	
 	override public function update():Void
 	{
-		if (_quantity > 0)
+		var notExistNum:Int = 0;
+		for (particle in members)
 		{
-			var notExistNum:Int = 0;
-			for (particle in members)
-			{
-				if (!particle.exists)
-					notExistNum++;
-			}
-			
-			if (notExistNum < threshold)
-			{
-				tryFade();
-			}
+			if (!particle.exists)
+				notExistNum++;
+		}
+		
+		if (notExistNum < threshold)
+		{
+			tryFade();
+		}
+		
+		if (fading.length > 0)
+		{
+			for (p in fading)
+				p.alpha = fading[0].alpha;
 		}
 		
 		super.update();
@@ -66,11 +76,14 @@ class FlxFadingEmitter extends FlxEmitterExt
 	
 	private function tryFade():Void
 	{
+		if (fading.length > 0)
+			return;
+		
 		var i:Int = 0;
 		var count:Int = fadeNumber;
 		var len:Int = members.length;
 		
-		while (fadeNumber > 0 || i < len)
+		while (count > 0 || i < len)
 		{
 			var p:FlxSprite = members[i];
 			if (p.exists)
@@ -78,18 +91,24 @@ class FlxFadingEmitter extends FlxEmitterExt
 				members.splice(i, 1);
 				members.push(p);
 				i--;
-				fadeNumber--;
+				count--;
 				len--;
-				
-				FlxTween.singleVar(p, "alpha", 0, fadeDuration,
-					{ type: FlxTween.ONESHOT,
-						complete: function(tween:FlxTween):Void {
-							tween.userData.particle.kill();
-						} } ).userData = { particle: p };
+				fading.push(p);
 			}
 			
 			i++;
 		}
+		
+		if (fading.length == 0)
+			return;
+		
+		FlxTween.singleVar(fading[0], "alpha", 0, fadeDuration,
+			{ type: FlxTween.ONESHOT,
+				complete: function(tween:FlxTween):Void {
+					for (p in fading)
+						p.kill();
+					fading.splice(0, fading.length);
+				} } );
 	}
 	
 }
