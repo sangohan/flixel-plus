@@ -1,9 +1,11 @@
 package flixel.plus;
 
+import flixel.FlxG;
 import flixel.system.FlxSound;
+import flixel.util.FlxTimer;
 
 /**
- * A static class that contains misc functions
+ * A static class that contains misc functions.
  * @author Malody Hoe
  */
 class FlxPlus
@@ -22,6 +24,33 @@ class FlxPlus
 			music = FlxG.sound.music;
 		return music._position / 1000;
 	}
+	
+	
+	/**
+	 * Modifies the game's timeScale for a period of time.
+	 * @param	timeScale The new FlxG.timeScale you want to set it to.
+	 * WARNING: Don't set it to 0! Use FlxPlus.sleep instead.
+	 * @param	duration The duration to change the timeScale, in seconds.
+	 */
+	public static inline function
+		tempChangeTimeScale(timeScale:Float, duration:Float):Void
+	{
+		FlxG.timeScale = timeScale;
+		FlxTimer.start(duration * timeScale, function(timer:FlxTimer) {
+			FlxG.timeScale = 1.0;
+		} );
+	}
+	
+	
+	/**
+	 * Pseudo-sleeps the game for a period of time.
+	 * @param	duration The duration to sleep the game, in seconds.
+	 */
+	public static inline function sleep(duration:Float):Void
+	{
+		tempChangeTimeScale(0.01, duration);
+	}
+	
 	
 	/**
 	 * Remap a value to another value from 2 arrays
