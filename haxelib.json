@@ -1,0 +1,14 @@
+{
+	"name": "flixel-plus",
+	"url": "https://github.com/madhoe",
+	"license": "MIT",
+	"tags": ["game", "flixel", "openfl", "cross"],
+	"description": "Some additional stuff for HaxeFlixel",
+	"version": "0.0.1",
+	"contributors": [
+		"Madhoe"
+	],
+	"dependencies": {
+		"flixel": "3.2.2"
+	}
+}
