@@ -16,7 +16,7 @@ class FlxPlus
 	 * If null, uses FlxG.sound.music.
 	 * @return The playback position in seconds.
 	 */
-	public static inline function getMusicTime(music:FlxSound):Float
+	public static inline function getMusicTime(music:FlxSound=null):Float
 	{
 		if (music == null)
 			music = FlxG.sound.music;
