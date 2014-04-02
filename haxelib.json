@@ -5,6 +5,7 @@
 	"tags": ["game", "flixel", "openfl", "cross"],
 	"description": "Some additional stuff for HaxeFlixel",
 	"version": "0.0.1",
+	"releasenote": "Initial release, everything is working correctly",
 	"contributors": [
 		"Madhoe"
 	],
