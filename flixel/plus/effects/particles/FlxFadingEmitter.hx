@@ -83,7 +83,7 @@ class FlxFadingEmitter extends FlxEmitterExt
 		var count:Int = fadeNumber;
 		var len:Int = members.length;
 		
-		while (count > 0 || i < len)
+		while (count > 0 && i < len)
 		{
 			var p:FlxSprite = members[i];
 			if (p.exists)
