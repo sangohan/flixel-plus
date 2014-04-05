@@ -28,27 +28,36 @@ class FlxPlus
 	
 	/**
 	 * Modifies the game's timeScale for a period of time.
+	 * Changes the timeScale back to 1.0 afterwards.
+	 * If you do not want this, set a callback.
 	 * @param	timeScale The new FlxG.timeScale you want to set it to.
 	 * WARNING: Don't set it to 0! Use FlxPlus.sleep instead.
 	 * @param	duration The duration to change the timeScale, in seconds.
+	 * @param	?callback Optional callback parameter.
 	 */
-	public static inline function
-		tempChangeTimeScale(timeScale:Float, duration:Float):Void
+	public static inline function tempChangeTimeScale(
+		timeScale:Float, duration:Float, ?callback:FlxTimer->Void):Void
 	{
 		FlxG.timeScale = timeScale;
 		FlxTimer.start(duration * timeScale, function(timer:FlxTimer) {
 			FlxG.timeScale = 1.0;
+			if (callback != null)
+				callback(timer);
 		} );
 	}
 	
 	
 	/**
 	 * Pseudo-sleeps the game for a period of time.
+	 * Changes the timeScale back to 1.0 afterwards.
+	 * If you do not want this, set a callback.
 	 * @param	duration The duration to sleep the game, in seconds.
+	 * @param	?callback Optional callback parameter.
 	 */
-	public static inline function sleep(duration:Float):Void
+	public static inline function sleep(
+		duration:Float, ?callback:FlxTimer->Void):Void
 	{
-		tempChangeTimeScale(0.01, duration);
+		tempChangeTimeScale(0.01, duration, callback);
 	}
 	
 	
