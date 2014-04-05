@@ -34,10 +34,10 @@ class FlxFadingEmitter extends FlxEmitterExt
 	private var fading:Array<FlxSprite>;
 	
 	/**
-	 * @param	threshold If the number of dead particles is less than this threshold, it will
-	 * try to fade out the old particles.
-	 * @param	fadeDuration The duration of the fading out.
-	 * @param	fadeNumber The number of particles to fade out each time.
+	 * @param	threshold		If the number of dead particles is less than this threshold, it will
+	 *							try to fade out the old particles.
+	 * @param	fadeDuration	The duration of the fading out.
+	 * @param	fadeNumber		The number of particles to fade out each time.
 	 */
 	public function new(
 		threshold:Int=100, fadeDuration:Float=1.0, fadeNumber:Int=10)

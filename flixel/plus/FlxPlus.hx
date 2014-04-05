@@ -14,9 +14,10 @@ class FlxPlus
 	@:access(flixel.system.FlxSound._position)
 	/**
 	 * Gets the playback position of a FlxSound.
-	 * @param	music The FlxSound you want to retrieve the position of.
-	 * If null, uses FlxG.sound.music.
-	 * @return The playback position in seconds.
+	 * 
+	 * @param	music	The FlxSound you want to retrieve the position of.
+	 * 					If null, uses FlxG.sound.music.
+	 * @return	The playback position in seconds.
 	 */
 	public static inline function getMusicTime(music:FlxSound=null):Float
 	{
@@ -25,15 +26,37 @@ class FlxPlus
 		return music._position / 1000;
 	}
 	
+	/**
+	 * Plays a sound, and sets its
+	 * survive to "true" so that it will play across states.
+	 * 
+	 * @param	EmbeddedSound	The sound you want to play.
+	 * @param	Volume			How loud to play it (0 to 1).
+	 * @param	Looped			Whether to loop this sound.
+	 * @param	AutoDestroy		Whether to destroy this on finish playing.
+	 * 							Set this to "false" if you want to re-use.
+	 * @param	?onComplete		The callback when the sound finishes playing.
+	 * @return	The FlxSound object for chaining.
+	 */
+	public static inline function playPersistingSound(
+		embeddedSound:String, volume:Float=1.0, looped:Bool=false,
+		autoDestroy:Bool=false, ?onComplete:Void->Void):FlxSound
+	{
+		var sound:FlxSound = FlxG.sound.play(
+			embeddedSound, volume, looped, autoDestroy, onComplete);
+		sound.survive = true;
+		return sound;
+	}
 	
 	/**
 	 * Modifies the game's timeScale for a period of time.
 	 * Changes the timeScale back to 1.0 afterwards.
 	 * If you do not want this, set a callback.
-	 * @param	timeScale The new FlxG.timeScale you want to set it to.
-	 * WARNING: Don't set it to 0! Use FlxPlus.sleep instead.
-	 * @param	duration The duration to change the timeScale, in seconds.
-	 * @param	?callback Optional callback parameter.
+	 * 
+	 * @param	timeScale	The new FlxG.timeScale you want to set it to.
+	 * 						WARNING: Don't set it to 0! Use FlxPlus.sleep instead.
+	 * @param	duration	The duration to change the timeScale, in seconds.
+	 * @param	?callback	Optional callback parameter.
 	 */
 	public static inline function tempChangeTimeScale(
 		timeScale:Float, duration:Float, ?callback:FlxTimer->Void):Void
@@ -46,13 +69,13 @@ class FlxPlus
 		} );
 	}
 	
-	
 	/**
 	 * Pseudo-sleeps the game for a period of time.
 	 * Changes the timeScale back to 1.0 afterwards.
 	 * If you do not want this, set a callback.
-	 * @param	duration The duration to sleep the game, in seconds.
-	 * @param	?callback Optional callback parameter.
+	 * 
+	 * @param	duration	The duration to sleep the game, in seconds.
+	 * @param	?callback	Optional callback parameter.
 	 */
 	public static inline function sleep(
 		duration:Float, ?callback:FlxTimer->Void):Void
@@ -60,12 +83,12 @@ class FlxPlus
 		tempChangeTimeScale(0.01, duration, callback);
 	}
 	
-	
 	/**
-	 * Remap a value to another value from 2 arrays
-	 * @param	value The value you want to remap
-	 * @param	from The array of possible values that contains the input value
-	 * @param	to The array of possible output values that maps to [from]
+	 * Remap a value to another value from 2 arrays.
+	 * 
+	 * @param	value	The value you want to remap
+	 * @param	from	The array of possible values that contains the input value
+	 * @param	to		The array of possible output values that maps to [from]
 	 */
 	static public function remapValue(
 		value:Dynamic, from:Array<Dynamic>, to:Array<Dynamic>):Dynamic
