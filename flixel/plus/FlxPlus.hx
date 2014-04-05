@@ -1,5 +1,6 @@
 package flixel.plus;
 
+import flash.system.System;
 import flixel.FlxG;
 import flixel.system.FlxSound;
 import flixel.util.FlxTimer;
@@ -27,13 +28,12 @@ class FlxPlus
 	}
 	
 	/**
-	 * Plays a sound, and sets its
-	 * survive to "true" so that it will play across states.
+	 * Plays a sound, and sets its survive to "true" so that it will play across states.
 	 * 
-	 * @param	EmbeddedSound	The sound you want to play.
-	 * @param	Volume			How loud to play it (0 to 1).
-	 * @param	Looped			Whether to loop this sound.
-	 * @param	AutoDestroy		Whether to destroy this on finish playing.
+	 * @param	embeddedSound	The sound you want to play.
+	 * @param	volume			How loud to play it (0 to 1).
+	 * @param	looped			Whether to loop this sound.
+	 * @param	autoDestroy		Whether to destroy this on finish playing.
 	 * 							Set this to "false" if you want to re-use.
 	 * @param	?onComplete		The callback when the sound finishes playing.
 	 * @return	The FlxSound object for chaining.
@@ -49,9 +49,8 @@ class FlxPlus
 	}
 	
 	/**
-	 * Modifies the game's timeScale for a period of time.
-	 * Changes the timeScale back to 1.0 afterwards.
-	 * If you do not want this, set a callback.
+	 * Modifies the game's timeScale for a period of time. Changes the timeScale back to 1.0 afterwards.
+	 * If you do not want this to happen, set a callback.
 	 * 
 	 * @param	timeScale	The new FlxG.timeScale you want to set it to.
 	 * 						WARNING: Don't set it to 0! Use FlxPlus.sleep instead.
@@ -70,9 +69,8 @@ class FlxPlus
 	}
 	
 	/**
-	 * Pseudo-sleeps the game for a period of time.
-	 * Changes the timeScale back to 1.0 afterwards.
-	 * If you do not want this, set a callback.
+	 * Pseudo-sleeps the game for a period of time. Changes the timeScale back to 1.0 afterwards.
+	 * If you do not want this to happen, set a callback.
 	 * 
 	 * @param	duration	The duration to sleep the game, in seconds.
 	 * @param	?callback	Optional callback parameter.
@@ -81,6 +79,14 @@ class FlxPlus
 		duration:Float, ?callback:FlxTimer->Void):Void
 	{
 		tempChangeTimeScale(0.01, duration, callback);
+	}
+	
+	/**
+	 * Quits the game. Shorthand for System.exit(0).
+	 */
+	public static inline function quit():Void
+	{
+		System.exit(0);
 	}
 	
 	/**
