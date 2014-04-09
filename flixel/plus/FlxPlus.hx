@@ -1,5 +1,6 @@
 package flixel.plus;
 
+import flash.Lib;
 import flash.system.System;
 import flixel.FlxG;
 import flixel.system.FlxSound;
@@ -82,11 +83,16 @@ class FlxPlus
 	}
 	
 	/**
-	 * Quits the game. Shorthand for System.exit(0).
+	 * Quits the game. Shorthand for System.exit(0). Force-closes for Android.
 	 */
 	public static inline function quit():Void
 	{
+		#if android
+		Lib.forceClose();
+		Lib.forceClose();
+		#else
 		System.exit(0);
+		#end
 	}
 	
 	/**
