@@ -96,21 +96,22 @@ class FlxPlus
 	}
 	
 	/**
-	 * Remap a value to another value from 2 arrays.
+	 * Remap a value to another value from 2 arrays. If unable to map, returns null.
+	 * Eg. ["A", "B", "C", "D"] -> [1, 2, 3, 4], "B" maps to 2.
 	 * 
 	 * @param	value	The value you want to remap
 	 * @param	from	The array of possible values that contains the input value
 	 * @param	to		The array of possible output values that maps to [from]
 	 */
-	static public function remapValue(
-		value:Dynamic, from:Array<Dynamic>, to:Array<Dynamic>):Dynamic
+	@:generic public static function remapValue<T, U>(
+		value:T, from:Array<T>, to:Array<U>):Null<U>
 	{
 		for (i in 0...from.length)
 		{
 			if (from[i] == value)
 				return to[i];
 		}
-		return value;
+		return null;
 	}
 	
 }
