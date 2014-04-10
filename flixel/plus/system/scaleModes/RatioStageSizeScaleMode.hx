@@ -33,8 +33,8 @@ class RatioStageSizeScaleMode extends StageSizeScaleMode
 		
 		super.onMeasure(newWidth, newHeight);
 		
-		FlxG.game.x = cast (Width - newWidth) / 2;
-		FlxG.game.y = cast (Height - newHeight) / 2;
+		FlxG.game.x = Std.int((Width - newWidth) / 2);
+		FlxG.game.y = Std.int((Height - newHeight) / 2);
 	}
 	
 }

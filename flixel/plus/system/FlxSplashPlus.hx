@@ -40,7 +40,7 @@ class FlxSplashPlus extends FlxSplash
 		#end
 		
 		#if mobile
-		onResize(cast FlxG.stage.width, cast FlxG.stage.height);
+		onResize(Std.int(FlxG.stage.width), Std.int(cast FlxG.stage.height));
 		#end
 	}
 	
