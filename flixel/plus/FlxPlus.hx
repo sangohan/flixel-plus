@@ -103,15 +103,49 @@ class FlxPlus
 	 * @param	from	The array of possible values that contains the input value
 	 * @param	to		The array of possible output values that maps to [from]
 	 */
-	@:generic public static function remapValue<T, U>(
+	@:generic public static inline function remapValue<T, U>(
 		value:T, from:Array<T>, to:Array<U>):Null<U>
 	{
+		var toVal:Null<U> = null;
 		for (i in 0...from.length)
 		{
 			if (from[i] == value)
-				return to[i];
+			{
+				toVal = to[i];
+				break;
+			}
 		}
-		return null;
+		return toVal;
+	}
+	
+	/**
+	 * Converts a float to string while being able to round it off decimal places.
+	 * Eg. 9.4673 2dp => 9.47
+	 * 
+	 * @param	value	The float you want to convert.
+	 * @param	dp		The decimal places to round off the float. Default 0 means no rounding.
+	 * 					If default, you might as well just use Std.string!
+	 * @return	The string.
+	 */
+	public static inline function floatToString(value:Float, dp:Int=0):String
+	{
+		if (dp == 0)
+			return Std.string(value);
+		else
+		{
+			var parts:Array<String> = Std.string(value).split(".");
+			if (parts.length == 1)
+				return parts[0];
+			else
+			{
+				var decimal:Int = Math.round(
+					Std.parseFloat(parts[1].substr(0, dp + 1)) / 10);
+				var dstr:String = Std.string(decimal);
+				while (dstr.length < dp)
+					dstr += "0";
+				return parts[0] + "." + dstr;
+			}
+		}
 	}
 	
 }
