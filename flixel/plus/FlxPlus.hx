@@ -13,23 +13,8 @@ import flixel.util.FlxTimer;
 class FlxPlus
 {
 	
-	@:access(flixel.system.FlxSound._position)
 	/**
-	 * Gets the playback position of a FlxSound.
-	 * 
-	 * @param	music	The FlxSound you want to retrieve the position of.
-	 * 					If null, uses FlxG.sound.music.
-	 * @return	The playback position in seconds.
-	 */
-	public static inline function getMusicTime(music:FlxSound=null):Float
-	{
-		if (music == null)
-			music = FlxG.sound.music;
-		return music._position / 1000;
-	}
-	
-	/**
-	 * Plays a sound, and sets its survive to "true" so that it will play across states.
+	 * Plays a sound, and sets its persist to "true" so that it will play across states.
 	 * 
 	 * @param	embeddedSound	The sound you want to play.
 	 * @param	volume			How loud to play it (0 to 1).
@@ -45,7 +30,7 @@ class FlxPlus
 	{
 		var sound:FlxSound = FlxG.sound.play(
 			embeddedSound, volume, looped, autoDestroy, onComplete);
-		sound.survive = true;
+		sound.persist = true;
 		return sound;
 	}
 	
@@ -62,16 +47,16 @@ class FlxPlus
 		timeScale:Float, duration:Float, ?callback:Void->Void):Void
 	{
 		FlxG.timeScale = timeScale;
-		FlxTimer.start(duration * timeScale, function(timer:FlxTimer) {
-			FlxG.timeScale = 1.0;
+		delay(duration * timeScale, function(_):Void {
 			if (callback != null)
 				callback();
+			else				
+				FlxG.timeScale = 1.0;
 		} );
 	}
 	
 	/**
-	 * Pseudo-sleeps the game for a period of time. Changes the timeScale back to 1.0 afterwards.
-	 * If you do not want this to happen, set a callback.
+	 * Sleeps the current state (sets active to "false") for a period of time.
 	 * 
 	 * @param	duration	The duration to sleep the game, in seconds.
 	 * @param	?callback	Optional callback parameter.
@@ -79,7 +64,26 @@ class FlxPlus
 	public static inline function sleep(
 		duration:Float, ?callback:Void->Void):Void
 	{
-		tempChangeTimeScale(0.01, duration, callback);
+		FlxG.state.active = false;
+		delay(duration, function(_):Void {
+			FlxG.state.active = true;
+			if(callback != null)
+				callback();
+		} );
+	}
+	
+	/**
+	 * Sets up a timer using FlxTimer. Basically the same as creating a FlxTimer object, but makes more sense as a function!
+	 * 
+	 * @param	duration	How many seconds it takes for the timer to go off.
+	 * @param	callback	The function to call each time the timer ends.
+	 * @param	loops   	How many times the timer should go off. 0 means "looping forever".
+	 * @return	Returns the FlxTimer just in case you need it.
+	 */
+	public static inline function delay(
+		duration:Float, callback:FlxTimer->Void, loops:Int=1):FlxTimer
+	{
+		return new FlxTimer(duration, callback, loops);
 	}
 	
 	/**
@@ -87,6 +91,7 @@ class FlxPlus
 	 */
 	public static inline function quit():Void
 	{
+		// Have no idea why but I need to call Lib.forceClose() twice!
 		#if android
 		Lib.forceClose();
 		Lib.forceClose();
@@ -94,6 +99,11 @@ class FlxPlus
 		System.exit(0);
 		#end
 	}
+	
+	/*
+	 * UTILITIES
+	 * ========================================================================
+	 */
 	
 	/**
 	 * Remap a value to another value from 2 arrays. If unable to map, returns null.
@@ -103,7 +113,8 @@ class FlxPlus
 	 * @param	from	The array of possible values that contains the input value
 	 * @param	to		The array of possible output values that maps to [from]
 	 */
-	@:generic public static inline function remapValue<T, U>(
+	@:generic
+	public static inline function remapValue<T, U>(
 		value:T, from:Array<T>, to:Array<U>):Null<U>
 	{
 		var toVal:Null<U> = null;

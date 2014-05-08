@@ -10,6 +10,6 @@
 		"Madhoe"
 	],
 	"dependencies": {
-		"flixel": "3.2.2"
+		"flixel": "3.3.1"
 	}
 }

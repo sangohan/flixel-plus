@@ -16,25 +16,20 @@ import flixel.system.FlxSplash;
  */
 class FlxSplashPlus extends FlxSplash
 {
-	
-	/**
-	 * The state to load next. If you're not planning on overriding this class,
-	 * you should set this in the GameClass before you init FlxGame.
-	 */
-	public static var nextState:Class<FlxState> = null;
-	
+
 	public function new(nextState:Class<FlxState>=null)
 	{
-		super(nextState != null ? nextState : FlxSplashPlus.nextState);
-		FlxSplashPlus.nextState = nextState;
+		super();
+		if(nextState != null)
+			FlxSplash.nextState = nextState;
 	}
-
+	
 	override public function create():Void 
 	{
 		initDefaults();
 		
 		#if debug
-		FlxG.switchState(Type.createInstance(nextState, []));
+		FlxG.switchState(Type.createInstance(FlxSplash.nextState, []));
 		#else
 		super.create();
 		#end
